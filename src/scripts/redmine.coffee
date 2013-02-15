@@ -365,10 +365,11 @@ class Redmine
       response.on "end", ->
         switch response.statusCode
           when 200
+            data = data or { }
             try
-              callback null, JSON.parse(data), response.statusCode
-            catch err
-              callback null, (data or { }), response.statusCode
+              data = JSON.parse(data)
+
+            callback null, data, response.statusCode
           when 401
             throw new Error "401: Authentication failed."
           else
